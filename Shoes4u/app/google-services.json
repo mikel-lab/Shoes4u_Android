@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "76858096549",
+    "project_id": "shoes4u-31ad0",
+    "storage_bucket": "shoes4u-31ad0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76858096549:android:855d817031c9271048064c",
+        "android_client_info": {
+          "package_name": "io.guardiaimperial.shoes4u"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76858096549-bsa9quhp90992dcr72ob4g2677cri9nr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC13xr5opQ6vyMkaHiXiMbXekWk7V6EXt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76858096549-bsa9quhp90992dcr72ob4g2677cri9nr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
