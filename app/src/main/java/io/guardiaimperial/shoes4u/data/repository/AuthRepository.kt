@@ -22,8 +22,8 @@ class AuthRepository(
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    updateUserInfo(user){ state ->
-                        when(state){
+                    updateUserInfo(user) { state ->
+                        when (state) {
                             is UiState.Success -> {
                                 result.invoke(
                                     UiState.Success("User register sucessfully")
@@ -50,12 +50,12 @@ class AuthRepository(
                 }
             }
             .addOnFailureListener {
-            result.invoke(
-                UiState.Failure(
-                    it.localizedMessage
+                result.invoke(
+                    UiState.Failure(
+                        it.localizedMessage
+                    )
                 )
-            )
-        }
+            }
     }
 
     override fun updateUserInfo(user: User, result: (UiState<String>) -> Unit) {
@@ -77,8 +77,17 @@ class AuthRepository(
             }
     }
 
-    override fun loginUser(user: User, result: (UiState<String>) -> Unit) {
-        TODO("Not yet implemented")
+    override fun loginUser(email: String, password: String, result: (UiState<String>) -> Unit) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    result.invoke(UiState.Success("Login successfully"))
+                }
+            }.addOnFailureListener {
+                result.invoke(
+                    UiState.Failure("Authentication failed, Check email and password")
+                )
+            }
     }
 
     override fun forgetPassword(user: User, result: (UiState<String>) -> Unit) {
