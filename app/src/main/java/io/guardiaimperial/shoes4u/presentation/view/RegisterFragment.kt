@@ -69,9 +69,12 @@ class RegisterFragment : Fragment() {
     private fun getUserObj(): User {
         return User(
             id = "",
-            firstName = binding.etFirtName.text.toString(),
-            lastName = binding.etLastName.text.toString(),
-            email = binding.etEmail.text.toString()
+            email = binding.etEmail.text.toString(),
+            name = binding.etName.text.toString(),
+            surname = binding.etSurnames.text.toString(),
+            username = binding.etUsername.text.toString(),
+            city = binding.etCity.text.toString(),
+            province = binding.etProvince.text.toString()
         )
 
     }
@@ -99,14 +102,29 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        if (binding.etFirtName.text.isNullOrEmpty()) {
+        if (binding.etName.text.isNullOrEmpty()) {
             isValid = false
-            toast(getString(R.string.enter_first_name))
+            toast(getString(R.string.enter_name))
         }
 
-        if (binding.etLastName.text.isNullOrEmpty()) {
+        if (binding.etSurnames.text.isNullOrEmpty()) {
             isValid = false
-            toast(getString(R.string.enter_last_name))
+            toast(getString(R.string.enter_surnames))
+        }
+
+        if (binding.etUsername.text.isNullOrEmpty()) {
+            isValid = false
+            toast(getString(R.string.enter_username))
+        }
+
+        if (binding.etCity.text.isNullOrEmpty()) {
+            isValid = false
+            toast(getString(R.string.enter_city))
+        }
+
+        if (binding.etProvince.text.isNullOrEmpty()) {
+            isValid = false
+            toast(getString(R.string.enter_province))
         }
 
         return isValid

@@ -9,64 +9,54 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
+import io.guardiaimperial.shoes4u.databinding.FragmentForgotPasswordBinding
 import io.guardiaimperial.shoes4u.databinding.FragmentLoginBinding
-import io.guardiaimperial.shoes4u.databinding.FragmentRegisterBinding
 import io.guardiaimperial.shoes4u.presentation.viewmodel.AuthViewModel
 import io.guardiaimperial.shoes4u.utils.UiState
 import io.guardiaimperial.shoes4u.utils.isValidEmail
 import io.guardiaimperial.shoes4u.utils.toast
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class ForgotPasswordFragment : Fragment() {
 
-    val TAG: String = "LoginFragment"
-    lateinit var binding: FragmentLoginBinding
+    val TAG: String = "ForgotPasswordFragment"
+    lateinit var binding: FragmentForgotPasswordBinding
     private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoginBinding.inflate(layoutInflater)
+        binding = FragmentForgotPasswordBinding.inflate(layoutInflater)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
-        binding.btnLogin.setOnClickListener {
+        binding.btnForgotPassword.setOnClickListener {
             if (validation()) {
-                viewModel.login(
-                    email = binding.etEmail.text.toString(),
-                    password = binding.etPassword.text.toString(),
+                viewModel.forgotPassword(
+                    email = binding.etEmail.text.toString()
                 )
             }
-        }
-
-        binding.forgotPasswordTv.setOnClickListener {
-            //findNavController().navigate(R.id.registerFragment)
-        }
-
-        binding.registerTv.setOnClickListener {
-            //findNavController().navigate(R.id.registerFragment)
         }
     }
 
     fun observer() {
-        viewModel.login.observe(viewLifecycleOwner) { state ->
+        viewModel.forgotPassword.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    binding.btnLogin.text = ""
-                    binding.pbLogin.isVisible = true
+                    binding.btnForgotPassword.text = ""
+                    binding.pbForgotPassword.isVisible = true
                 }
                 is UiState.Failure -> {
-                    binding.btnLogin.text = "Login"
-                    binding.pbLogin.isVisible = false
+                    binding.btnForgotPassword.text = "Send"
+                    binding.pbForgotPassword.isVisible = false
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    binding.btnLogin.text = "Login"
-                    binding.pbLogin.isVisible = false
+                    binding.btnForgotPassword.text = "Send"
+                    binding.pbForgotPassword.isVisible = false
                     toast(state.data)
                     //findNavController().navigate(R.id.registerFragment)
                 }
@@ -84,16 +74,6 @@ class LoginFragment : Fragment() {
             if (!binding.etEmail.text.toString().isValidEmail()) {
                 isValid = false
                 toast(getString(R.string.invalid_email))
-            }
-        }
-
-        if (binding.etPassword.text.isNullOrEmpty()) {
-            isValid = false
-            toast(getString(R.string.enter_password))
-        } else {
-            if (binding.etPassword.text.toString().length < 8) {
-                isValid = false
-                toast(getString(R.string.invalid_password))
             }
         }
 

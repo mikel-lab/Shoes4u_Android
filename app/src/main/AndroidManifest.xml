@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.guardiaimperial.shoes4u">
 
+    <!-- Añadimos el permiso para tener acceso a Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
