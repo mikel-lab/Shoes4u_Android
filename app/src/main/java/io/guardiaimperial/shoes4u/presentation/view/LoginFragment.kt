@@ -1,16 +1,15 @@
 package io.guardiaimperial.shoes4u.presentation.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
 import io.guardiaimperial.shoes4u.databinding.FragmentLoginBinding
-import io.guardiaimperial.shoes4u.databinding.FragmentRegisterBinding
 import io.guardiaimperial.shoes4u.presentation.viewmodel.AuthViewModel
 import io.guardiaimperial.shoes4u.utils.UiState
 import io.guardiaimperial.shoes4u.utils.isValidEmail
@@ -21,7 +20,7 @@ class LoginFragment : Fragment() {
 
     val TAG: String = "LoginFragment"
     lateinit var binding: FragmentLoginBinding
-    private val viewModel: AuthViewModel by viewModels()
+    val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +43,10 @@ class LoginFragment : Fragment() {
         }
 
         binding.forgotPasswordTv.setOnClickListener {
-            //findNavController().navigate(R.id.registerFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
-
         binding.registerTv.setOnClickListener {
-            //findNavController().navigate(R.id.registerFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 
@@ -57,24 +55,24 @@ class LoginFragment : Fragment() {
             when (state) {
                 is UiState.Loading -> {
                     binding.btnLogin.text = ""
-                    binding.pbLogin.isVisible = true
+                    binding.pbLogin.visibility = View.VISIBLE
                 }
                 is UiState.Failure -> {
                     binding.btnLogin.text = "Login"
-                    binding.pbLogin.isVisible = false
+                    binding.pbLogin.visibility = View.GONE
                     toast(state.error)
                 }
                 is UiState.Success -> {
                     binding.btnLogin.text = "Login"
-                    binding.pbLogin.isVisible = false
+                    binding.pbLogin.visibility = View.GONE
                     toast(state.data)
-                    //findNavController().navigate(R.id.registerFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_blankFragment)
                 }
             }
         }
     }
 
-    private fun validation(): Boolean {
+    fun validation(): Boolean {
         var isValid = true
 
         if (binding.etEmail.text.isNullOrEmpty()) {
@@ -96,7 +94,6 @@ class LoginFragment : Fragment() {
                 toast(getString(R.string.invalid_password))
             }
         }
-
         return isValid
     }
 }

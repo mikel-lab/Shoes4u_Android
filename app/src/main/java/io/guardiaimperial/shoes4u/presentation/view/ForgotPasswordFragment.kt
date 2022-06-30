@@ -5,12 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
 import io.guardiaimperial.shoes4u.databinding.FragmentForgotPasswordBinding
-import io.guardiaimperial.shoes4u.databinding.FragmentLoginBinding
 import io.guardiaimperial.shoes4u.presentation.viewmodel.AuthViewModel
 import io.guardiaimperial.shoes4u.utils.UiState
 import io.guardiaimperial.shoes4u.utils.isValidEmail
@@ -21,7 +19,7 @@ class ForgotPasswordFragment : Fragment() {
 
     val TAG: String = "ForgotPasswordFragment"
     lateinit var binding: FragmentForgotPasswordBinding
-    private val viewModel: AuthViewModel by viewModels()
+    val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,18 +45,17 @@ class ForgotPasswordFragment : Fragment() {
             when (state) {
                 is UiState.Loading -> {
                     binding.btnForgotPassword.text = ""
-                    binding.pbForgotPassword.isVisible = true
+                    binding.pbForgotPassword.visibility = View.VISIBLE
                 }
                 is UiState.Failure -> {
                     binding.btnForgotPassword.text = "Send"
-                    binding.pbForgotPassword.isVisible = false
+                    binding.pbForgotPassword.visibility = View.GONE
                     toast(state.error)
                 }
                 is UiState.Success -> {
                     binding.btnForgotPassword.text = "Send"
-                    binding.pbForgotPassword.isVisible = false
+                    binding.pbForgotPassword.visibility = View.GONE
                     toast(state.data)
-                    //findNavController().navigate(R.id.registerFragment)
                 }
             }
         }

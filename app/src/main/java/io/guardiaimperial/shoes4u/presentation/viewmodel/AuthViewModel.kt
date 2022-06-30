@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.guardiaimperial.shoes4u.data.repository.AuthRepository
+import io.guardiaimperial.shoes4u.data.repository.AuthRepositoryInterface
 import io.guardiaimperial.shoes4u.domain.model.User
 import io.guardiaimperial.shoes4u.utils.UiState
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository: AuthRepository
+    val repository: AuthRepositoryInterface
 ) : ViewModel() {
 
     private val _register = MutableLiveData<UiState<String>>()

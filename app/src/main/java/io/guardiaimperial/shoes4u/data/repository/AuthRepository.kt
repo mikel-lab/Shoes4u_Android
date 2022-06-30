@@ -10,8 +10,8 @@ import io.guardiaimperial.shoes4u.utils.FireStoreCollection
 import io.guardiaimperial.shoes4u.utils.UiState
 
 class AuthRepository(
-    private val auth: FirebaseAuth,
-    private val database: FirebaseFirestore
+    val auth: FirebaseAuth,
+    val database: FirebaseFirestore
 ) : AuthRepositoryInterface {
 
     override fun registerUser(

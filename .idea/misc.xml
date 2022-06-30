@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/app_navigation.xml" value="0.2140625" />
+        <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_forgot_password.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login_register.xml" value="0.2210144927536232" />

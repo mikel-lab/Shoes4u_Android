@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,7 @@ class RegisterFragment : Fragment() {
 
     val TAG: String = "RegisterFragment"
     lateinit var binding: FragmentRegisterBinding
-    private val viewModel: AuthViewModel by viewModels()
+    val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,26 +48,26 @@ class RegisterFragment : Fragment() {
             when (state) {
                 is UiState.Loading -> {
                     binding.btnRegister.text = ""
-                    binding.pbRegister.isVisible = true
+                    binding.pbRegister.visibility = View.VISIBLE
                 }
                 is UiState.Failure -> {
                     binding.btnRegister.text = "Register"
-                    binding.pbRegister.isVisible = false
+                    binding.pbRegister.visibility = View.GONE
                     toast(state.error)
                 }
                 is UiState.Success -> {
                     binding.btnRegister.text = "Register"
-                    binding.pbRegister.isVisible = false
+                    binding.pbRegister.visibility = View.GONE
                     toast(state.data)
-                    //findNavController().navigate(R.id.registerFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_blankFragment)
                 }
             }
         }
     }
 
-    private fun getUserObj(): User {
+    fun getUserObj(): User {
         return User(
-            id = "",
+            //id = "",
             email = binding.etEmail.text.toString(),
             name = binding.etName.text.toString(),
             surname = binding.etSurnames.text.toString(),
@@ -76,10 +75,9 @@ class RegisterFragment : Fragment() {
             city = binding.etCity.text.toString(),
             province = binding.etProvince.text.toString()
         )
-
     }
 
-    private fun validation(): Boolean {
+    fun validation(): Boolean {
         var isValid = true
 
         if (binding.etEmail.text.isNullOrEmpty()) {
