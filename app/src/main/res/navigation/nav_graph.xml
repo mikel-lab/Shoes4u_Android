@@ -10,6 +10,11 @@
         android:name="io.guardiaimperial.shoes4u.presentation.view.BlankFragment"
         android:label="BlankFragment"
         tools:layout="@layout/fragment_blank">
+        <action
+            android:id="@+id/action_blankFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

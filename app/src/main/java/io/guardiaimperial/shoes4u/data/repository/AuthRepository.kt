@@ -106,4 +106,8 @@ class AuthRepository(
             }
     }
 
+    override fun logout(result: () -> Unit) {
+        auth.signOut()
+        result.invoke()
+    }
 }

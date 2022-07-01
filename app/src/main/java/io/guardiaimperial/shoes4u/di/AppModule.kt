@@ -8,22 +8,26 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.guardiaimperial.shoes4u.data.repository.AuthRepository
 import io.guardiaimperial.shoes4u.data.repository.AuthRepositoryInterface
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
+    @Singleton
     fun provideFireStoreInstance(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
 
     @Provides
+    @Singleton
     fun provideFirebaseAuthInstance(): FirebaseAuth {
         return FirebaseAuth.getInstance()
     }
 
     @Provides
+    @Singleton
     fun provideAuthRepository(
         database: FirebaseFirestore,
         auth: FirebaseAuth

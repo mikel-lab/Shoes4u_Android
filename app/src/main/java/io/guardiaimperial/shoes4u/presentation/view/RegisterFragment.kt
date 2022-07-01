@@ -67,7 +67,7 @@ class RegisterFragment : Fragment() {
 
     fun getUserObj(): User {
         return User(
-            //id = "",
+            id = "",
             email = binding.etEmail.text.toString(),
             name = binding.etName.text.toString(),
             surname = binding.etSurnames.text.toString(),
