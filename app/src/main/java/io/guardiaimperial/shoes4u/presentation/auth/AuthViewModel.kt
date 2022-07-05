@@ -3,18 +3,18 @@ package io.guardiaimperial.shoes4u.presentation.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.guardiaimperial.shoes4u.domain.repository.AuthRepository
 import io.guardiaimperial.shoes4u.domain.model.User
 import io.guardiaimperial.shoes4u.domain.model.Response
-import io.guardiaimperial.shoes4u.domain.use_case.UseCases
-import kotlinx.coroutines.launch
+import io.guardiaimperial.shoes4u.domain.use_case.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    val useCases: UseCases
+    private val registerUser: RegisterUser,
+    private val loginUser: LoginUser,
+    private val logoutUser: LogoutUser,
+    private val forgotPasswordUser: ForgotPasswordUser
 ) : ViewModel() {
 
     private val _register = MutableLiveData<Response<String>>()
@@ -36,7 +36,7 @@ class AuthViewModel @Inject constructor(
         user: User
     ) {
         _register.value = Response.Loading
-        useCases.registerUser(
+        registerUser(
             email = email,
             password = password,
             user = user
@@ -51,7 +51,7 @@ class AuthViewModel @Inject constructor(
         password: String
     ) {
         _login.value = Response.Loading
-        useCases.loginUser(
+        loginUser(
             email = email,
             password = password
         ) {
@@ -64,7 +64,9 @@ class AuthViewModel @Inject constructor(
         email:String
     ) {
         _forgotPassword.value = Response.Loading
-        useCases.forgotPassword(email){
+        forgotPasswordUser(
+            email
+        ){
             _forgotPassword.value = it
         }
     }
@@ -73,6 +75,6 @@ class AuthViewModel @Inject constructor(
     fun logout(
         result: () -> Unit
     ) {
-        useCases.logoutUser(result)
+        logoutUser(result)
     }
 }

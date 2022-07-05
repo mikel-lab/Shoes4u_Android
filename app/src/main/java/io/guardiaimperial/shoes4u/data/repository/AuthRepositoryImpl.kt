@@ -12,8 +12,8 @@ import io.guardiaimperial.shoes4u.domain.repository.AuthRepository
 
 /** Pasamos como parámentros a la clase las dependencias de FirebaseAuth y FirebaseFireStore */
 class AuthRepositoryImpl(
-    val auth: FirebaseAuth,
-    val database: FirebaseFirestore
+    private val auth: FirebaseAuth,
+    private val database: FirebaseFirestore
 ) : AuthRepository {
 
     /** Llamamos a la función "createUserWithEmailAndPassword", incluida en la dependencia
