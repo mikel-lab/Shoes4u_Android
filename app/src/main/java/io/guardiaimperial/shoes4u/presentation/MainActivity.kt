@@ -1,8 +1,9 @@
-package io.guardiaimperial.shoes4u
+package io.guardiaimperial.shoes4u.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import io.guardiaimperial.shoes4u.R
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

@@ -7,30 +7,36 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 import io.guardiaimperial.shoes4u.domain.model.User
 import io.guardiaimperial.shoes4u.utils.FireStoreCollection
-import io.guardiaimperial.shoes4u.utils.UiState
+import io.guardiaimperial.shoes4u.domain.model.Response
+import io.guardiaimperial.shoes4u.domain.repository.AuthRepository
 
-class AuthRepository(
+/** Pasamos como parámentros a la clase las dependencias de FirebaseAuth y FirebaseFireStore */
+class AuthRepositoryImpl(
     val auth: FirebaseAuth,
     val database: FirebaseFirestore
-) : AuthRepositoryInterface {
+) : AuthRepository {
 
+    /** Llamamos a la función "createUserWithEmailAndPassword", incluida en la dependencia
+    FirebaseAuth, y le pasamos los parámetros email y password. */
     override fun registerUser(
         email: String,
         password: String,
-        user: User, result: (UiState<String>) -> Unit
+        user: User, result: (Response<String>) -> Unit
     ) {
         auth.createUserWithEmailAndPassword(email, password)
+            /** Comprueba si el proceso se ha completado o no. Si ha tenido exito devuelve
+             * la cadena "User register successfully", sino lanza distintas excepciones.*/
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     updateUserInfo(user) { state ->
                         when (state) {
-                            is UiState.Success -> {
+                            is Response.Success -> {
                                 result.invoke(
-                                    UiState.Success("User register sucessfully")
+                                    Response.Success("User register sucessfully")
                                 )
                             }
-                            is UiState.Failure -> {
-                                result.invoke(UiState.Failure(state.error))
+                            is Response.Failure -> {
+                                result.invoke(Response.Failure(state.error))
                             }
                             else -> {}
                         }
@@ -39,69 +45,70 @@ class AuthRepository(
                     try {
                         throw it.exception ?: java.lang.Exception("Invalid authenticacion")
                     } catch (e: FirebaseAuthWeakPasswordException) {
-                        result.invoke(UiState.Failure("Authentication failed, Password should be at least 6 characters"))
+                        result.invoke(Response.Failure("Authentication failed, Password should be at least 6 characters"))
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        result.invoke(UiState.Failure("Authentication failed, Invalid email entered"))
+                        result.invoke(Response.Failure("Authentication failed, Invalid email entered"))
                     } catch (e: FirebaseAuthUserCollisionException) {
-                        result.invoke(UiState.Failure("Authenticacion failed, Email already registered"))
+                        result.invoke(Response.Failure("Authenticacion failed, Email already registered"))
                     } catch (e: Exception) {
-                        result.invoke(UiState.Failure(e.message))
+                        result.invoke(Response.Failure(e.message))
                     }
                 }
             }
             .addOnFailureListener {
                 result.invoke(
-                    UiState.Failure(
+                    Response.Failure(
                         it.localizedMessage
                     )
                 )
             }
     }
 
-    override fun updateUserInfo(user: User, result: (UiState<String>) -> Unit) {
+    /** Actualiza los datos de usuario dentro de la colección de usuarios de FireStore */
+    override fun updateUserInfo(user: User, result: (Response<String>) -> Unit) {
         val document = database.collection(FireStoreCollection.USER).document()
         user.id = document.id
         document
             .set(user)
             .addOnSuccessListener {
                 result.invoke(
-                    UiState.Success("User has been updated successfully")
+                    Response.Success("User has been updated successfully")
                 )
             }
             .addOnFailureListener {
                 result.invoke(
-                    UiState.Failure(
+                    Response.Failure(
                         it.localizedMessage
                     )
                 )
             }
     }
 
-    override fun loginUser(email: String, password: String, result: (UiState<String>) -> Unit) {
+    override fun loginUser(email: String, password: String, result: (Response<String>) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    result.invoke(UiState.Success("Login successfully"))
+                    result.invoke(Response.Success("Login successfully"))
                 }
             }.addOnFailureListener {
                 result.invoke(
-                    UiState.Failure("Authentication failed, Check email and password")
+                    Response.Failure("Authentication failed, Check email and password")
                 )
             }
     }
 
-    override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
+    override fun forgotPassword(email: String, result: (Response<String>) -> Unit) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    result.invoke(UiState.Success("Email has been sent"))
+                    result.invoke(Response.Success("Email has been sent"))
                 } else {
-                    result.invoke(UiState.Failure(task.exception?.message))
+                    result.invoke(Response.Failure(task.exception?.message))
 
                 }
             }.addOnFailureListener {
                 result.invoke(
-                    UiState.Failure("Authentication failed, Check email")
+                    Response.Failure("Authentication failed, Check email")
                 )
             }
     }

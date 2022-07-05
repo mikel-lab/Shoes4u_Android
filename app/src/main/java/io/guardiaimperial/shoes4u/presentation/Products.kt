@@ -1,4 +1,4 @@
-package io.guardiaimperial.shoes4u.presentation.view
+package io.guardiaimperial.shoes4u.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,28 +9,30 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
-import io.guardiaimperial.shoes4u.databinding.FragmentBlankBinding
-import io.guardiaimperial.shoes4u.presentation.viewmodel.AuthViewModel
+import io.guardiaimperial.shoes4u.databinding.FragmentProductsBinding
+import io.guardiaimperial.shoes4u.presentation.auth.AuthViewModel
 
 @AndroidEntryPoint
-class BlankFragment : Fragment() {
+class Products : Fragment() {
 
-    lateinit var binding: FragmentBlankBinding
+    lateinit var binding: FragmentProductsBinding
     val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBlankBinding.inflate(layoutInflater)
+        binding = FragmentProductsBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /** Al pulsar sobre el botón de logout, navegamos del
+         * fragment catalogo de productos al de login. */
         binding.btnLogout.setOnClickListener {
             viewModel.logout {
-                findNavController().navigate(R.id.action_blankFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_productsFragment_to_loginFragment)
             }
         }
     }

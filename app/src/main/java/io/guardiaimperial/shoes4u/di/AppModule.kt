@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.guardiaimperial.shoes4u.data.repository.AuthRepository
-import io.guardiaimperial.shoes4u.data.repository.AuthRepositoryInterface
+import io.guardiaimperial.shoes4u.data.repository.AuthRepositoryImpl
+import io.guardiaimperial.shoes4u.domain.repository.AuthRepository
 import javax.inject.Singleton
 
 @Module
@@ -31,7 +31,7 @@ object AppModule {
     fun provideAuthRepository(
         database: FirebaseFirestore,
         auth: FirebaseAuth
-    ): AuthRepositoryInterface {
-        return AuthRepository(auth, database)
+    ): AuthRepository {
+        return AuthRepositoryImpl(auth, database)
     }
 }

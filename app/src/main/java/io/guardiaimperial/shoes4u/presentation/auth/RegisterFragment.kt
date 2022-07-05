@@ -1,4 +1,4 @@
-package io.guardiaimperial.shoes4u.presentation.view
+package io.guardiaimperial.shoes4u.presentation.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
 import io.guardiaimperial.shoes4u.databinding.FragmentRegisterBinding
+import io.guardiaimperial.shoes4u.domain.model.Response
 import io.guardiaimperial.shoes4u.domain.model.User
-import io.guardiaimperial.shoes4u.presentation.viewmodel.AuthViewModel
 import io.guardiaimperial.shoes4u.utils.*
 
 @AndroidEntryPoint
@@ -32,6 +32,9 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
+        /** Al pulsar sobre el botón de registro, se comprueban los datos
+         * introducidos. Si son válidos, los pasamos como parámetros
+         * a la función login del viewmodel. */
         binding.btnRegister.setOnClickListener {
             if (validation()) {
                 viewModel.register(
@@ -43,28 +46,32 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    /** Observa los cambios en los livedata */
     fun observer() {
         viewModel.register.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is UiState.Loading -> {
+                is Response.Loading -> {
                     binding.btnRegister.text = ""
                     binding.pbRegister.visibility = View.VISIBLE
                 }
-                is UiState.Failure -> {
+                is Response.Failure -> {
                     binding.btnRegister.text = "Register"
                     binding.pbRegister.visibility = View.GONE
                     toast(state.error)
                 }
-                is UiState.Success -> {
+                /** En caso de éxito, navega desde el fragment de registro
+                 * al catálogo de productos */
+                is Response.Success -> {
                     binding.btnRegister.text = "Register"
                     binding.pbRegister.visibility = View.GONE
                     toast(state.data)
-                    findNavController().navigate(R.id.action_registerFragment_to_blankFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_productsFragment)
                 }
             }
         }
     }
 
+    /** Devuelve un objeto User. */
     fun getUserObj(): User {
         return User(
             id = "",
@@ -77,6 +84,7 @@ class RegisterFragment : Fragment() {
         )
     }
 
+    /** Valida los datos introducidos en los campos de texto. */
     fun validation(): Boolean {
         var isValid = true
 
