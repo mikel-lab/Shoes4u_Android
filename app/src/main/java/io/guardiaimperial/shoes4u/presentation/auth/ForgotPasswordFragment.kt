@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
 import io.guardiaimperial.shoes4u.databinding.FragmentForgotPasswordBinding
-import io.guardiaimperial.shoes4u.domain.model.Response
+import io.guardiaimperial.shoes4u.utils.Response
 import io.guardiaimperial.shoes4u.utils.isValidEmail
 import io.guardiaimperial.shoes4u.utils.toast
 
@@ -30,9 +30,7 @@ class ForgotPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
-        /** Al pulsar sobre el botón enviar, se comprueban los datos
-         * introducidos. Si son válidos, los pasamos como parámetros
-         * a la función forgotPassword del viewmodel. */
+
         binding.btnForgotPassword.setOnClickListener {
             if (validation()) {
                 viewModel.forgotPassword(
@@ -42,7 +40,6 @@ class ForgotPasswordFragment : Fragment() {
         }
     }
 
-    /** Observa los cambios en los livedata */
     fun observer() {
         viewModel.forgotPassword.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -64,7 +61,6 @@ class ForgotPasswordFragment : Fragment() {
         }
     }
 
-    /** Valida los datos introducidos en los campos de texto. */
     private fun validation(): Boolean {
         var isValid = true
 

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.guardiaimperial.shoes4u.R
 import io.guardiaimperial.shoes4u.databinding.FragmentRegisterBinding
-import io.guardiaimperial.shoes4u.domain.model.Response
+import io.guardiaimperial.shoes4u.utils.Response
 import io.guardiaimperial.shoes4u.domain.model.User
 import io.guardiaimperial.shoes4u.utils.*
 
@@ -32,9 +32,6 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
-        /** Al pulsar sobre el botón de registro, se comprueban los datos
-         * introducidos. Si son válidos, los pasamos como parámetros
-         * a la función login del viewmodel. */
         binding.btnRegister.setOnClickListener {
             if (validation()) {
                 viewModel.register(
@@ -46,7 +43,6 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    /** Observa los cambios en los livedata */
     fun observer() {
         viewModel.register.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -59,19 +55,17 @@ class RegisterFragment : Fragment() {
                     binding.pbRegister.visibility = View.GONE
                     toast(state.error)
                 }
-                /** En caso de éxito, navega desde el fragment de registro
-                 * al catálogo de productos */
+
                 is Response.Success -> {
                     binding.btnRegister.text = "Register"
                     binding.pbRegister.visibility = View.GONE
                     toast(state.data)
-                    findNavController().navigate(R.id.action_registerFragment_to_productsFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_productListFragment)
                 }
             }
         }
     }
 
-    /** Devuelve un objeto User. */
     fun getUserObj(): User {
         return User(
             id = "",
@@ -84,7 +78,6 @@ class RegisterFragment : Fragment() {
         )
     }
 
-    /** Valida los datos introducidos en los campos de texto. */
     fun validation(): Boolean {
         var isValid = true
 

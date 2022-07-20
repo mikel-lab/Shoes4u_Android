@@ -1,7 +1,7 @@
 package io.guardiaimperial.shoes4u.domain.repository
 
 import io.guardiaimperial.shoes4u.domain.model.User
-import io.guardiaimperial.shoes4u.domain.model.Response
+import io.guardiaimperial.shoes4u.utils.Response
 
 interface AuthRepository {
     fun registerUser(email: String, password: String, user: User, result: (Response<String>) -> Unit)
@@ -9,4 +9,6 @@ interface AuthRepository {
     fun loginUser(email: String, password: String, result: (Response<String>) -> Unit)
     fun forgotPassword(email: String, result: (Response<String>) -> Unit)
     fun logout(result: () -> Unit)
+    fun storeSession(id: String, result: (User?) -> Unit)
+    fun getSession(result: (User?) -> Unit)
 }

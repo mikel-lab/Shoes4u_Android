@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.guardiaimperial.shoes4u.domain.model.User
-import io.guardiaimperial.shoes4u.domain.model.Response
-import io.guardiaimperial.shoes4u.domain.use_case.*
+import io.guardiaimperial.shoes4u.domain.use_case.auth.*
+import io.guardiaimperial.shoes4u.utils.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,7 +14,8 @@ class AuthViewModel @Inject constructor(
     private val registerUser: RegisterUser,
     private val loginUser: LoginUser,
     private val logoutUser: LogoutUser,
-    private val forgotPasswordUser: ForgotPasswordUser
+    private val forgotPasswordUser: ForgotPasswordUser,
+    private val getSessionUser: GetSessionUser
 ) : ViewModel() {
 
     private val _register = MutableLiveData<Response<String>>()
@@ -29,7 +30,6 @@ class AuthViewModel @Inject constructor(
     val forgotPassword: LiveData<Response<String>>
         get() = _forgotPassword
 
-    /** Llama a la función "registerUser" del repositorio.*/
     fun register(
         email: String,
         password: String,
@@ -45,7 +45,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    /** Llama a la función "loginUser" del repositorio.*/
     fun login(
         email: String,
         password: String
@@ -59,22 +58,26 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    /** Llama a la función "forgotPassword" del repositorio.*/
     fun forgotPassword(
-        email:String
+        email: String
     ) {
         _forgotPassword.value = Response.Loading
         forgotPasswordUser(
             email
-        ){
+        ) {
             _forgotPassword.value = it
         }
     }
 
-    /** Llama a la función "logout" del repositorio.*/
     fun logout(
         result: () -> Unit
     ) {
         logoutUser(result)
+    }
+
+    fun getSession(
+        result: (User?) -> Unit
+    ) {
+        getSessionUser(result)
     }
 }
