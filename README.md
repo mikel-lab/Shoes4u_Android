@@ -55,9 +55,7 @@ Es la capa que interactúa con la interfaz de usuario y la que se encuentra más
     * Mantener sesión iniciada
     * Cerrar sesión
   * Catálogo de productos
-  * Detalle producto
-  * Subir un producto
-  * Barra de navegación
+  * Search Bar
 
 # Capturas de pantalla
 <div align="center">
