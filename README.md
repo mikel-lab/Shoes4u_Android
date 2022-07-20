@@ -59,7 +59,7 @@ Es la capa que interactúa con la interfaz de usuario y la que se encuentra más
 
 # Capturas de pantalla
 <div align="center">
-<img src="https://github.com/donatogomez/MarvelCharactersMVC/blob/main/mockups/splash.png" alt="drawing" width="250"/> <img src="https://github.com/donatogomez/MarvelCharactersMVC/blob/main/mockups/main.png" alt="drawing" width="250"/> <img src="https://github.com/donatogomez/MarvelCharactersMVC/blob/main/mockups/detail.png" alt="drawing" width="250"/>
+<img src="" alt="drawing" width="250"/> <img src="" alt="drawing" width="250"/> <img src="" alt="drawing" width="250"/>
 </div>
 
 # Licencia
