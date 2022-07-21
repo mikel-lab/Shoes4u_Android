@@ -15,7 +15,7 @@ Software desarrollado y mantenido por [Donato Gómez](https://github.com/donatog
 # Arquitectura
 La app sigue el estándar de arquitectura **CLEAN** propuesto por ***Robert C. Martin***. La idea principal, es separar el software en capas independientes. Existen distintas formas de lograrlo. La más utilizada, se denomina arquitectura de tres capas: *Dominio, Datos y Presentación*.
 
-![Clean Architecture](https://github.com/mikel-lab/Shoes4u_Android/blob/master/images/CLEAN.png)
+![Clean Architecture](https://github.com/mikel-lab/Shoes4u_Android/blob/main/images/CLEAN.png)
 
 ## Dominio
 Es la capa inferior y está aislada del resto. Contiene nuestros *modelos* de datos y los *casos de uso*.
@@ -26,7 +26,7 @@ Capa encargada de seleccionar las *fuentes de datos(repositorios)* para la capa 
 ## Presentación
 Es la capa que interactúa con la interfaz de usuario y la que se encuentra más arriba. Incluye *Vistas(Activities/Fragments)* y *ViewModels*. Hemos utilizado el patron de diseño **MVVM** para modelarla.
 
-![MVVM+Clean](https://github.com/mikel-lab/Shoes4u_Android/blob/master/images/MVVM_Clean.png)
+![MVVM+Clean](https://github.com/mikel-lab/Shoes4u_Android/blob/main/images/MVVM_Clean.png)
 
 # Stack tecnológico
 
